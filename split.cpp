@@ -16,8 +16,50 @@ the function below should be the only one in this file.
 
 void split(Node*& in, Node*& odds, Node*& evens)
 {
-  /* Add code here */
-// WRITE YOUR CODE HERE
+  if(in == nullptr){
+    return; 
+  }
+  
+  if(odds == nullptr && in->value % 2 == 1){
+    odds = new Node(in->value, nullptr);
+    Node* temp = in->next;
+    delete in;
+    in = temp; 
+    split(in, odds, evens);
+  }
+  else if(evens == nullptr && in->value % 2 == 0){
+    evens = new Node(in->value, nullptr);
+    Node* temp = in->next;
+    delete in;
+    in = temp; 
+    split(in, odds, evens);
+  }
+  else if (in->value % 2 == 1){
+    Node* oddTraverse = odds;
+    traverse(oddTraverse); 
+    oddTraverse->next = new Node(in->value, nullptr);
+    Node* temp = in->next;
+    delete in;
+    in = temp; 
+    split(in, odds, evens);
+  }
+  else if (in->value % 2 == 0){
+    Node* evenTraverse = evens;
+    traverse(evenTraverse);
+    evenTraverse->next = new Node(in->value, nullptr);
+    Node* temp = in->next;
+    delete in;
+    in = temp; 
+    split(in, odds, evens);
+  }
 }
 
 /* If you needed a helper function, write it here */
+void traverse(Node*& traverseList){
+  if(traverseList->next != nullptr){
+    traverseList = traverseList->next; 
+    traverse(traverseList);
+  }
+  
+  return; 
+}
